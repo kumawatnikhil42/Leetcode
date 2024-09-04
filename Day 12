@@ -1,0 +1,44 @@
+# Write your MySQL query statement below
+select * 
+from Patients
+where conditions like 'DIAB1%' or conditions like '% DIAB1%'; 
+
+
+select customer_id,
+count(visit_id) as count_no_trans
+from Visits as v
+where visit_id not in (select visit_id from transactions)
+group by v.customer_id; 
+
+
+
+select u.name,
+sum(t.amount) as balance 
+from Users as u
+join Transactions as t on u.account=t.account
+group by t.account
+having balance > 10000;
+
+
+
+select contest_id,
+round((count(user_id)/(select count(user_id) from Users))*100,2) as percentage 
+from  Register
+group by contest_id
+order by percentage desc,contest_id;
+
+
+
+
+select 
+a.machine_id, 
+round(avg(b.timestamp - a.timestamp), 3) as processing_time 
+from activity a 
+join activity b
+on a.machine_id = b.machine_id 
+and a.process_id = b.process_id 
+and a.activity_type = 'start' 
+and b.activity_type = 'end'
+group by a.machine_id;
+
+
